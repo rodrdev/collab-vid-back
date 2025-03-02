@@ -1,0 +1,11 @@
+
+dev.db
+
+
+prisma/migrations/
+
+
+node_modules
+
+
+.env
