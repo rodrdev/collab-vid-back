@@ -23,6 +23,6 @@ model Video {
   url         String
   description String
   senderName  String
-  userId      String // ID do usuário que criou o vídeo
+  userId      String
   user        User   @relation(fields: [userId], references: [id]) // Relacionamento com o User
 }

@@ -10,9 +10,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const { id } = req.params; // Extrai o ID da URL
+  const { id } = req.params;
 
-  // Verifique se o ID é um UUID válido (ou pode ser um número, dependendo do tipo)
   if (!isNaN(id) && id.length !== 36) {
     return res.status(400).json({ error: "ID must be a valid UUID" });
   }
@@ -29,7 +28,6 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { title, url, description, influencerId, senderName } = req.body;
 
-  // Verificar se o influencer (usuário) existe
   const userExists = await prisma.user.findUnique({
     where: { id: influencerId },
   });

@@ -66,8 +66,9 @@ router.post("/login", async (req, res) => {
   });
 });
 
+// Endpoint para editar o nome, email e status de influenciador
 router.put("/edit/:id", async (req, res) => {
-  const { name, email, password, isInfluencer } = req.body;
+  const { name, email, isInfluencer } = req.body;
   const { id } = req.params;
 
   const user = await prisma.user.findUnique({ where: { id: parseInt(id) } });
@@ -75,17 +76,11 @@ router.put("/edit/:id", async (req, res) => {
     return res.status(404).json({ error: "Usuário não encontrado" });
   }
 
-  let hashedPassword = user.password;
-  if (password) {
-    hashedPassword = await bcrypt.hash(password, 10);
-  }
-
   const updatedUser = await prisma.user.update({
     where: { id: parseInt(id) },
     data: {
       name: name || user.name,
       email: email || user.email,
-      password: hashedPassword,
       isInfluencer:
         isInfluencer !== undefined ? isInfluencer : user.isInfluencer,
     },
@@ -96,6 +91,41 @@ router.put("/edit/:id", async (req, res) => {
     name: updatedUser.name,
     email: updatedUser.email,
     isInfluencer: updatedUser.isInfluencer,
+  });
+});
+
+router.put("/edit-password/:id", async (req, res) => {
+  console.log("caiu aqui");
+  const { currentPassword, newPassword } = req.body;
+  const { id } = req.params;
+
+  console.log(id);
+
+  const user = await prisma.user.findUnique({ where: { id: id } });
+  if (!user) {
+    return res.status(404).json({ error: "Usuário não encontrado" });
+  }
+
+  const isPasswordCorrect = await bcrypt.compare(
+    currentPassword,
+    user.password
+  );
+  if (!isPasswordCorrect) {
+    return res.status(400).json({ error: "Senha atual incorreta" });
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  const updatedUser = await prisma.user.update({
+    where: { id: id },
+    data: {
+      password: hashedPassword,
+    },
+  });
+
+  res.json({
+    id: updatedUser.id,
+    message: "Senha atualizada com sucesso",
   });
 });
 
@@ -118,7 +148,7 @@ router.post("/forgot-password", async (req, res) => {
     expiresIn: "1h",
   });
 
-  const resetLink = `http://seusite.com/reset-password/${token}`;
+  const resetLink = `http://localhost:5173/reset-password/${token}`;
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
