@@ -148,7 +148,7 @@ router.post("/forgot-password", async (req, res) => {
     expiresIn: "1h",
   });
 
-  const resetLink = `https://collab-vid.onrender.com/reset-password/${token}`;
+  const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
