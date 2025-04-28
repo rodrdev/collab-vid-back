@@ -81,8 +81,6 @@ router.put("/edit/:id", async (req, res) => {
     data: {
       name: name || user.name,
       email: email || user.email,
-      isInfluencer:
-        isInfluencer !== undefined ? isInfluencer : user.isInfluencer,
     },
   });
 
@@ -95,7 +93,6 @@ router.put("/edit/:id", async (req, res) => {
 });
 
 router.put("/edit-password/:id", async (req, res) => {
-  console.log("caiu aqui");
   const { currentPassword, newPassword } = req.body;
   const { id } = req.params;
 
