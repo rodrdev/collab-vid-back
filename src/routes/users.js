@@ -62,11 +62,11 @@ router.post("/login", async (req, res) => {
       name: user.name,
       isInfluencer: user.isInfluencer,
       channelName: user.channelName,
+      email: user.email,
     },
   });
 });
 
-// Endpoint para editar o nome, email e status de influenciador
 router.put("/edit/:id", async (req, res) => {
   const { name, email, isInfluencer } = req.body;
   const { id } = req.params;
@@ -80,6 +80,8 @@ router.put("/edit/:id", async (req, res) => {
     where: { id: parseInt(id) },
     data: {
       name: name || user.name,
+      channelName: channelName || user.channelName,
+      isInfluencer: true,
       email: email || user.email,
     },
   });
