@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const app = express();
 
 const corsOptions = {
-  origin: "https://collab-vid.onrender.com",
+  origin: "https://collab-vid-front.onrender.com",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
