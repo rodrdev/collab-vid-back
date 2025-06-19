@@ -3,7 +3,7 @@ const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 const videoRoutes = require("./routes/videos");
 const usersRoutes = require("./routes/users");
-const authenticateToken = require("./middlewares/authMiddleware");
+const authenticateToken = require("./Middleware/authMiddleware");
 
 const prisma = new PrismaClient();
 const app = express();
