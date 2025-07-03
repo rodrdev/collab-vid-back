@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 const app = express();
 
 const corsOptions = {
-  origin: "https://collab-vid-front.onrender.com",
+  origin: ["https://www.collabvid.com.br", "https://collabvid.com.br"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
