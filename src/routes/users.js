@@ -98,8 +98,6 @@ router.put("/edit-password/:id", async (req, res) => {
   const { currentPassword, newPassword } = req.body;
   const { id } = req.params;
 
-  console.log(id);
-
   const user = await prisma.user.findUnique({ where: { id: id } });
   if (!user) {
     return res.status(404).json({ error: "Usuário não encontrado" });
@@ -147,7 +145,7 @@ router.post("/forgot-password", async (req, res) => {
     expiresIn: "1h",
   });
 
-  const resetLink = `${process.env.FRONTEND_URL}/#/reset-password/${token}`;
+  const resetLink = `${process.env.FRONTEND_URL}/#/forgot-password/${token}`;
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
